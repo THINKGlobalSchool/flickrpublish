@@ -39,18 +39,6 @@ foreach($roles as $role) {
 	?>
 </div>
 <div>
-	<label><?php echo elgg_echo('flickrpublish:label:username'); ?></label><br />
-	<strong>Note:</strong>
-	This is the username for the account we want to upload photos to. It much be the account for which 
-	the below token is created.<br />
-	<?php 
-	echo elgg_view('input/text', array(
-		'name' => 'params[flickrusername]', 
-		'value' => $vars['entity']->flickrusername
-	)); 
-	?>
-</div>
-<div>
 	<label><?php echo elgg_echo('flickrpublish:label:usertoken'); ?></label><br />
 	<strong>Note:</strong>
 	See http://phpflickr.com/docs/flickr-authentication/ regarding authentication. We need to generate a token 

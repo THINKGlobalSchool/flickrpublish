@@ -37,11 +37,21 @@ $f->setToken(elgg_get_plugin_setting('usertoken', 'flickrpublish'));
 // Get tags
 $tags = $photo->tags;
 
+if ($tags) {
+	if (!is_array($tags)) {
+		$tags = array($tags);
+	}
+} else {
+	$tags = array();
+}
+
 // Add logged in username as a tag
 $tags[] = elgg_get_logged_in_user_entity()->username;
 
 // Need a space seperated string
 $tag_string = implode(" ", $tags);
+
+
 
 // Try uploading the photo
 if ($f->sync_upload($photo->getFilenameOnFileStore(), $photo->title, $photo->description, $tag_string)) {

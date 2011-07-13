@@ -18,13 +18,13 @@ $english = array(
 	// Labels
 	'flickrpublish:label:apikey' => 'API Key',
 	'flickrpublish:label:appsecret' => 'Secret',
-	'flickrpublish:label:username' => 'Flickr User Name',
 	'flickrpublish:label:usertoken' => 'User Token',
 	'flickrpublish:label:role' => 'Publisher Role',
 	'flickrpublish:label:publishflickr' => 'Publish to Flickr',
 	'flickrpublish:label:confirmpublish' => 'Publish this image to Flickr?',
 	'flickrpublish:label:publish' => 'Publish',
 	'flickrpublish:label:uploading' => 'Uploading...',
+	'flickrpublish:label:viewimage' => 'View Image',
 
 	// River
 
