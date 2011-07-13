@@ -17,8 +17,13 @@ $roles_options = array();
 foreach($roles as $role) {
 	$roles_options[$role->guid] = $role->title;
 }
-
 ?>
+<br />
+<div>
+	<label>IMPORTANT!</label><br />
+	Elgg data directory permissions <strong>MUST</strong> be kosher before this plugin will work.
+	If cURL can't access the file on the disk, it can't upload it to Flickr!!
+</div>
 <br />
 <div>
 	<label><?php echo elgg_echo('flickrpublish:label:apikey'); ?></label><br />
