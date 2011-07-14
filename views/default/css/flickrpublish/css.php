@@ -12,9 +12,8 @@
 ?>
 
 .flickr-publish-menu-hover {
-	padding: 10px;
 	display: none;
-	position: absolute;
+	height: auto;
 	z-index: 10000;
 	background-color: rgba(0,0,0,.7);
 }
@@ -24,10 +23,8 @@
 }
 
 .flickrpublish-hover-container .publish-container {
-	padding: 5px;
-	-webkit-border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-radius: 6px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
 .flickrpublish-hover-container .publish-container label {

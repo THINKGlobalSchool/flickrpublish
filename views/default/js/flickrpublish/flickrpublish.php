@@ -18,10 +18,9 @@ elgg.flickrpublish.init = function() {
 	$('#publish-flickr-submit').live('click', elgg.flickrpublish.publish);
 
 	// Show/Hide hover menu
-	$('.tp-publish-flickr img').live('mouseover', elgg.flickrpublish.gallery_show_publish);
-
-	$('.flickr-publish-menu-hover').bind('mouseleave', function() {
-		$(this).fadeOut();
+	$('.tp-publish-flickr').hover(elgg.flickrpublish.gallery_show_publish, function() {
+			var $hovermenu = $(this).find('img').data('hovermenu');
+			$hovermenu.fadeOut();
 	});
 }
 
@@ -57,31 +56,20 @@ elgg.flickrpublish.publish = function(event) {
  * Show the publish hover in tidypics gallery mode
  */
 elgg.flickrpublish.gallery_show_publish = function(event) {
-	$image = $(this);
+	$image = $(this).find('img');
 
-	var $hovermenu = $(this).data('hovermenu') || null;
+	var $hovermenu = $image.data('hovermenu') || null;
 
 	if (!$hovermenu) {
-		var $hovermenu = $(this).closest('.tp-publish-flickr').find(".flickr-publish-menu-hover");
-		$(this).data('hovermenu', $hovermenu);
+		var $hovermenu = $image.closest('.tp-publish-flickr').find(".flickr-publish-menu-hover");
+		$image.data('hovermenu', $hovermenu);
 	}
 
-	// @todo Use jQuery-ui position library instead -- much simpler
-	var offset = $image.offset();
-	var top = offset.top + 'px';
-	var left = offset.left + 'px';
-	var width = ($image.width() - 20) + 'px';
-	var height = ($image.height() - 20)  + 'px';
-
-	$hovermenu.appendTo('body')
-			.css('position', 'absolute')
-			.css("top", top)
-			.css("left", left)
-			.css("height", height)
-			.css("width", width)
-			.fadeIn('normal');
-
-	event.stopPropagation();
+	$hovermenu.css("width", $image.width() + 'px').fadeIn('fast').position({
+		my: "left top",
+		at: "left top",
+		of: $image
+	}).appendTo($image.closest('.tp-publish-flickr'));
 }
 
 elgg.register_hook_handler('init', 'system', elgg.flickrpublish.init);

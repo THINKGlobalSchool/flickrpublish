@@ -10,14 +10,6 @@
  *
  */
 
-$image = get_entity($vars['image_guid']);
-
-$view_image = elgg_view('output/url', array(
-	'text' => elgg_echo('flickrpublish:label:viewimage'),
-	'value' => $image->getURL(),
-	'class' => 'elgg-button elgg-button-action',
-));
-
 $publish_submit = elgg_view('output/url', array(
 	'name' => 'publish-flickr-submit',
 	'id' => 'publish-flickr-submit',
@@ -33,7 +25,6 @@ $photo_guid = elgg_view('input/hidden', array(
 
 echo <<<HTML
 	<div class="flickrpublish-hover-container">
-		<center>$view_image</center><br />
 		<div class="publish-container">
 			<center>
 				$publish_submit
