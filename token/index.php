@@ -21,23 +21,14 @@ in your application.
 
 *******************************************/
 
-// Start elgg engine
-require_once(dirname(dirname(dirname(dirname(__FILE__)))) . "/engine/start.php");
-
-// Check for admin
-admin_gatekeeper();
-
 require_once(dirname(dirname(__FILE__)) . "/vendors/phpFlickr-3.1/phpFlickr.php");
 
 if (!empty($_SESSION['api_key'])) {
     $f = new phpFlickr($_SESSION['api_key'], $_SESSION['secret']);
     $f->auth($_SESSION['perms']);
     $token = $f->auth_checkToken($_SESSION['phpFlickr_auth_token']);
-    echo "This is the code you should use to generate your phpFlickr instance: <br />";
-    echo "<pre>\$f = new phpFlickr('{$_SESSION['api_key']}', '{$_SESSION['secret']}');\n";
-    echo "\$f->setToken('{$_SESSION['phpFlickr_auth_token']}');\n";
-    echo "</pre>";
-    echo "This code will log your website in as the Flickr user '{$token['user']['username']}' with '{$token['perms']}' permissions";
+    echo "<h2>" . $_SESSION['phpFlickr_auth_token'] . "</h2>";
+    echo "This code will allow you to publish photos as the Flickr user '{$token['user']['username']}' with '{$token['perms']}' permissions";
     exit;
 } elseif (!empty($_POST['api_key'])) {
     if (!empty($_POST['secret'])) {
@@ -81,12 +72,7 @@ session_unregister('api_key');
             <input type="text" style="text-align: center" name="api_key" size="40" /><br />
             Secret<br />
             <input type="text" style="text-align: center" name="secret" size="40" /><br />
-            Required Permissions<br />
-            <select name="perms">
-                <option value="read">Read</option>
-                <option value="write">Write</option>
-                <option value="delete">Delete</option>
-            </select><br />
+			<input type="hidden" name="perms" value="write" />
             <input type="submit" value="Submit">
         </form>
     </td></tr></table>
