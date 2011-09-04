@@ -49,7 +49,8 @@ function flickrpublish_init() {
  */
 function flickrpublish_thumbnail_handler($hook, $type, $value, $params) {
 	$image = $params['image'];
-	if (elgg_instanceof($image, 'object', 'image')) {
+	
+	if (elgg_instanceof($image, 'object', 'image') &&  !elgg_in_context('ajaxmodule')) {
 		elgg_load_js('lightbox');
 		elgg_load_js('elgg.flickrpublish');
 		elgg_load_css('elgg.flickrpublish');
@@ -57,7 +58,7 @@ function flickrpublish_thumbnail_handler($hook, $type, $value, $params) {
 		$url = elgg_get_site_url();
 
 		$form = elgg_view('forms/flickrpublish/hover_upload', array('image_guid' => $image->guid));
-
+		
 		$value = "<div class='tidypics_album_images tp-publish-flickr'>
 					<a href='{$image->getURL()}'><img id='{$image->guid}' src='{$url}photos/thumbnail/{$image->guid}/small/' alt='{$image->title}' /></a>
 					<div class='flickr-publish-menu-hover'>$form</div>
