@@ -15,10 +15,12 @@ elgg_register_event_handler('init', 'system', 'flickrpublish_init');
 function flickrpublish_init() {	
 	// Register JS libraries
 	$f_js = elgg_get_simplecache_url('js', 'flickrpublish/flickrpublish');
+	elgg_register_simplecache_view('js/flickrpublish/flickrpublish');
 	elgg_register_js('elgg.flickrpublish', $f_js);
 	
 	// Register CSS
 	$f_css = elgg_get_simplecache_url('css', 'flickrpublish/css');
+	elgg_register_simplecache_view('css/flickrpublish/css');
 	elgg_register_css('elgg.flickrpublish', $f_css);
 
 	// Register PHPFlickr Library
