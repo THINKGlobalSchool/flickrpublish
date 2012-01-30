@@ -51,10 +51,11 @@ $tags[] = elgg_get_logged_in_user_entity()->username;
 // Need a space seperated string
 $tag_string = implode(" ", $tags);
 
-
+// Get default access setting
+$is_public = elgg_get_plugin_setting('ispublic', 'flickrpublish');
 
 // Try uploading the photo
-if ($f->sync_upload($photo->getFilenameOnFileStore(), $photo->title, $photo->description, $tag_string)) {
+if ($f->sync_upload($photo->getFilenameOnFileStore(), $photo->title, $photo->description, $tag_string, $is_public)) {
 	// Should have a photo id here
 	system_message(elgg_echo('flickrpublish:success:published'));
 } else {

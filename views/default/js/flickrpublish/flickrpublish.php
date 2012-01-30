@@ -73,4 +73,4 @@ elgg.flickrpublish.gallery_show_publish = function(event) {
 }
 
 elgg.register_hook_handler('init', 'system', elgg.flickrpublish.init);
-//</script>
+elgg.blah_blah;

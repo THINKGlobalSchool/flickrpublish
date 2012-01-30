@@ -25,6 +25,9 @@ $english = array(
 	'flickrpublish:label:publish' => 'Publish',
 	'flickrpublish:label:uploading' => 'Uploading...',
 	'flickrpublish:label:viewimage' => 'View Image',
+	'flickrpublish:label:access' => 'Default Access',
+	'flickrpublish:label:access:public' => 'Public',
+	'flickrpublish:label:access:private' => 'Private',
 
 	// River
 

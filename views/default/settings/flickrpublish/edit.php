@@ -70,6 +70,19 @@ $token_url = elgg_get_site_url() . 'mod/flickrpublish/token';
 	?>
 </div>
 <div>
+	<label><?php echo elgg_echo('flickrpublish:label:access'); ?></label><br />
+	<?php
+ 	echo elgg_view('input/dropdown', array(
+		'name' => 'params[ispublic]',
+		'options_values' => array(
+			0 => elgg_echo('flickrpublish:label:access:private'),
+			1 => elgg_echo('flickrpublish:label:access:public'),
+		),
+		'value' => $vars['entity']->ispublic,
+	));
+	?>
+</div>
+<div>
 	<label><?php echo elgg_echo('flickrpublish:label:role'); ?></label><br />
 	<?php 
  	echo elgg_view('input/dropdown', array(
