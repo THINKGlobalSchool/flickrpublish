@@ -20,7 +20,14 @@ elgg.flickrpublish.init = function() {
 	// Show/Hide hover menu
 	$('.tp-publish-flickr').hover(elgg.flickrpublish.gallery_show_publish, function() {
 			var $hovermenu = $(this).find('img').data('hovermenu');
-			$hovermenu.fadeOut();
+			if ($hovermenu) {
+				$hovermenu.fadeOut();
+			}		
+	});
+
+	// Fix for hover menu when lighbox link is clicked
+	$('.tp-publish-flickr a.tidypics-lightbox').live('click', function() {
+		$('.flickr-publish-menu-hover').fadeOut();
 	});
 }
 
@@ -73,4 +80,3 @@ elgg.flickrpublish.gallery_show_publish = function(event) {
 }
 
 elgg.register_hook_handler('init', 'system', elgg.flickrpublish.init);
-elgg.blah_blah;

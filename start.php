@@ -51,7 +51,6 @@ function flickrpublish_init() {
  */
 function flickrpublish_thumbnail_handler($hook, $type, $value, $params) {
 	$image = $params['image'];
-	
 	if (elgg_instanceof($image, 'object', 'image') &&  !elgg_in_context('ajaxmodule')) {
 		elgg_load_js('lightbox');
 		elgg_load_js('elgg.flickrpublish');
@@ -61,8 +60,11 @@ function flickrpublish_thumbnail_handler($hook, $type, $value, $params) {
 
 		$form = elgg_view('forms/flickrpublish/hover_upload', array('image_guid' => $image->guid));
 		
+		$lightbox_url = elgg_get_site_url() . 'ajax/view/tidypics/image_lightbox?guid=' . $image->guid;
+		
+		// @TODO this should change to be a plugin hook since I'm controlling our tidypics code
 		$value = "<div class='tidypics_album_images tp-publish-flickr'>
-					<a href='{$image->getURL()}'><img id='{$image->guid}' src='{$url}photos/thumbnail/{$image->guid}/small/' alt='{$image->title}' /></a>
+					<a class='tidypics-lightbox' href='{$lightbox_url}'><img id='{$image->guid}' src='{$url}photos/thumbnail/{$image->guid}/small/' alt='{$image->title}' /></a>
 					<div class='flickr-publish-menu-hover'>$form</div>
 				</div>";
 
