@@ -49,7 +49,7 @@ if ($tags) {
 $description = strip_tags($photo->description);
 
 // Place description in <p> tags to avoid issues with special characters (ie: @)
-$descriptiom = "<p>{$description}</p>";
+$description = "<p>{$description}</p>";
 
 // Add logged in username as a tag
 $tags[] = elgg_get_logged_in_user_entity()->username;
