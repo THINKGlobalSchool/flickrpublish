@@ -50,6 +50,8 @@ elgg.flickrpublish.publish = function(event) {
 			if (data.status == -1) {
 				container.removeClass('elgg-ajax-loader');
 				container.html('error: ' + data.system_messages.error);
+				// Log further error data
+				console.log(data);
 			} else {
 				container.removeClass('elgg-ajax-loader');
 				container.html('<center><label>Success!</label></center>');

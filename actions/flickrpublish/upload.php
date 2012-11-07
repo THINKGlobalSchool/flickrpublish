@@ -45,6 +45,12 @@ if ($tags) {
 	$tags = array();
 }
 
+// Photo description
+$description = strip_tags($photo->description);
+
+// Place description in <p> tags to avoid issues with special characters (ie: @)
+$descriptiom = "<p>{$description}</p>";
+
 // Add logged in username as a tag
 $tags[] = elgg_get_logged_in_user_entity()->username;
 
@@ -55,10 +61,18 @@ $tag_string = implode(" ", $tags);
 $is_public = elgg_get_plugin_setting('ispublic', 'flickrpublish');
 
 // Try uploading the photo
-if ($f->sync_upload($photo->getFilenameOnFileStore(), $photo->title, $photo->description, $tag_string, $is_public)) {
+if ($f->sync_upload($photo->getFilenameOnFileStore(), $photo->title, $description, $tag_string, $is_public)) {
 	// Should have a photo id here
 	system_message(elgg_echo('flickrpublish:success:published'));
 } else {
+	// Output some debug info
+	$photo_info = array(
+	        'title' => $photo->title,
+	        'desc' => $description,
+	        'tags' => $tag_string,
+	        'public' => $is_public,
+	);
+	echo json_encode($photo_info);
 	register_error($f->error_msg);
 }
 
