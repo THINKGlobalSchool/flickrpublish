@@ -23,16 +23,20 @@ function flickrpublish_init() {
 	elgg_register_simplecache_view('css/flickrpublish/css');
 	elgg_register_css('elgg.flickrpublish', $f_css);
 
+	elgg_load_js('lightbox');
+	elgg_load_js('elgg.flickrpublish');
+	elgg_load_css('elgg.flickrpublish');
+
 	// Register PHPFlickr Library
 	elgg_register_library('phpflickr', elgg_get_plugins_path() . 'flickrpublish/vendors/phpFlickr-3.1/phpFlickr.php');
 	
 	// Hook into tidypics if user can publish
 	if (can_flickr_publish()) {
-		// Extend image menu
-		elgg_extend_view('tidypics/image_menu', 'flickrpublish/image_menu');
+		// Extend image entity menu
+		elgg_register_plugin_hook_handler('register', 'menu:entity', 'flickrpublish_photo_menu_handler');
 
-		// Hook into image thumbnail view
-		elgg_register_plugin_hook_handler('tp_thumbnail_link', 'album', 'flickrpublish_thumbnail_handler');
+		// Hook into photo summary params handler
+		elgg_register_plugin_hook_handler('photo_summary_params', 'tidypics', 'flickrpublish_photo_summary_handler');
 	}
 	
 	// Register actions
@@ -41,7 +45,7 @@ function flickrpublish_init() {
 }
 
 /**
- * Hook to customize tidypics image thumbnail display
+ * Hook to customize tidypics photo summary and include flickr publish content
  *
  * @param string $hook   Name of hook
  * @param string $type   Entity type
@@ -49,28 +53,54 @@ function flickrpublish_init() {
  * @param array  $params Parameters
  * @return mixed
  */
-function flickrpublish_thumbnail_handler($hook, $type, $value, $params) {
-	$image = $params['image'];
+function flickrpublish_photo_summary_handler($hook, $type, $value, $params) {
+	$image = $params['entity'];
 	if (elgg_instanceof($image, 'object', 'image') &&  !elgg_in_context('ajaxmodule')) {
-		elgg_load_js('lightbox');
-		elgg_load_js('elgg.flickrpublish');
-		elgg_load_css('elgg.flickrpublish');
-
-		$url = elgg_get_site_url();
 
 		$form = elgg_view('forms/flickrpublish/hover_upload', array('image_guid' => $image->guid));
-		
-		$lightbox_url = elgg_get_site_url() . 'ajax/view/tidypics/image_lightbox?guid=' . $image->guid;
 
-		$value = "<div class='tidypics_album_images tp-publish-flickr'>
-					<a rel='tidypics-lightbox' class='tidypics-lightbox' href='{$lightbox_url}'><img id='{$image->guid}' src='{$url}photos/thumbnail/{$image->guid}/small/' alt='{$image->title}' /></a>
-					<div class='flickr-publish-menu-hover'>$form</div>
+		$value['class'] .= " tp-publish-flickr";
+		$value['footer'] .= "<div class='flickr-publish-menu-hover'>$form</div>";
+	}
+
+	return $value;
+}
+
+/**
+ * Hook to customize tidypics photo entity menu and add flickr publish items
+ *
+ * @param string $hook   Name of hook
+ * @param string $type   Entity type
+ * @param mixed  $value  Return value
+ * @param array  $params Parameters
+ * @return mixed
+ */
+function flickrpublish_photo_menu_handler($hook, $type, $value, $params) {
+	$entity = $params['entity'];
+	if (elgg_instanceof($entity, 'object', 'image')) {
+
+		$text = elgg_echo('flickrpublish:label:publishflickr');
+
+		$form = elgg_view('forms/flickrpublish/upload', array('image_guid' => $entity->guid));
+
+		$text .= "<div style='display: none;'>
+					<div id='lightbox-publish-{$entity->guid}' class='publish-container'>
+						$form
+					</div>
 				</div>";
 
-		return $value;
-	} else {
-		return FALSE;
+		$options = array(
+			'name' => 'flickrpublish',
+			'text' => $text,
+			'section' => 'actions',
+			'priority' => 900,
+			'link_class' => 'flickrpublish-lightbox',
+			'href' => '#lightbox-publish-' . $entity->guid,
+		);
+
+		$value[] = ElggMenuItem::factory($options);
 	}
+	return $value;
 }
 
 /**

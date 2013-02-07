@@ -15,20 +15,7 @@ elgg.provide('elgg.flickrpublish');
 
 // Init function
 elgg.flickrpublish.init = function() {	
-	$('#publish-flickr-submit').live('click', elgg.flickrpublish.publish);
-
-	// Show/Hide hover menu
-	$('.tp-publish-flickr').hover(elgg.flickrpublish.gallery_show_publish, function() {
-			var $hovermenu = $(this).find('img').data('hovermenu');
-			if ($hovermenu) {
-				$hovermenu.fadeOut();
-			}		
-	});
-
-	// Fix for hover menu when lighbox link is clicked
-	$('.tp-publish-flickr a.tidypics-lightbox').live('click', function() {
-		$('.flickr-publish-menu-hover').fadeOut();
-	});
+	$(document).delegate('#publish-flickr-submit', 'click', elgg.flickrpublish.publish);
 }
 
 /**	
@@ -61,24 +48,15 @@ elgg.flickrpublish.publish = function(event) {
 	event.preventDefault();
 }
 
-/**
- * Show the publish hover in tidypics gallery mode
- */
-elgg.flickrpublish.gallery_show_publish = function(event) {
-	$image = $(this).find('img');
-
-	var $hovermenu = $image.data('hovermenu') || null;
-
-	if (!$hovermenu) {
-		var $hovermenu = $image.closest('.tp-publish-flickr').find(".flickr-publish-menu-hover");
-		$image.data('hovermenu', $hovermenu);
-	}
-
-	$hovermenu.css("width", $image.width() + 'px').fadeIn('fast').position({
-		my: "left top",
-		at: "left top",
-		of: $image
-	}).appendTo($image.closest('.tp-publish-flickr'));
+// initialize flickrpublish lightboxes
+elgg.flickrpublish.init_lightbox = function() {
+	$(".flickrpublish-lightbox").fancybox({
+		'onClosed' : function() {
+			// Re-bind tidypics fancybox events
+			$.fancybox2.bindEvents();
+		}
+	});
 }
 
 elgg.register_hook_handler('init', 'system', elgg.flickrpublish.init);
+elgg.register_hook_handler('photoLightboxAfterShow', 'tidypics', elgg.flickrpublish.init_lightbox);
