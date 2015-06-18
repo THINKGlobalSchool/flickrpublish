@@ -7,7 +7,6 @@
      * use the phpFlickr::setToken() function whenever you create an instance of 
      * the class.
      */
-
     require_once("phpFlickr.php");
     $f = new phpFlickr("<api key>", "<secret>");
     

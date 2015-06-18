@@ -1,4 +1,4 @@
-<?
+<?php
 /*******************************************
 
 phpFlickr authentication tool v1.0
@@ -24,18 +24,17 @@ in your application.
 require_once(dirname(dirname(__FILE__)) . "/vendors/phpFlickr-3.1/phpFlickr.php");
 
 if (!empty($_SESSION['api_key'])) {
+
     $f = new phpFlickr($_SESSION['api_key'], $_SESSION['secret']);
     $f->auth($_SESSION['perms']);
+    var_dump('jere');die;
     $token = $f->auth_checkToken($_SESSION['phpFlickr_auth_token']);
     echo "<h2>" . $_SESSION['phpFlickr_auth_token'] . "</h2>";
     echo "This code will allow you to publish photos as the Flickr user '{$token['user']['username']}' with '{$token['perms']}' permissions";
     exit;
 } elseif (!empty($_POST['api_key'])) {
     if (!empty($_POST['secret'])) {
-        session_unregister('phpFlickr_auth_token');
-        session_register("api_key");
-        session_register("secret");
-        session_register("perms");
+        unset($_SESSION['phpFlickr_auth_token']);
         $_SESSION['api_key'] = $_POST['api_key'];
         $_SESSION['secret'] = $_POST['secret'];
         $_SESSION['perms'] = $_POST['perms'];
@@ -48,8 +47,8 @@ if (!empty($_SESSION['api_key'])) {
     }
 } 
 
-session_unregister('phpFlickr_auth_token');
-session_unregister('api_key');
+unset($_SESSION['phpFlickr_auth_token']);
+unset($_SESSION['api_key']);
 
 ?>
     <table border="0" align="center" width="600"><tr><td>

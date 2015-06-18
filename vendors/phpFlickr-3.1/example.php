@@ -12,12 +12,9 @@
  * Obviously, you'll want to replace the "<api key>" with one provided 
  * by Flickr: http://www.flickr.com/services/api/key.gne
  */
-
 require_once("phpFlickr.php");
 $f = new phpFlickr("<api key>");
-
 $recent = $f->photos_getRecent();
-
 foreach ($recent['photo'] as $photo) {
     $owner = $f->people_getInfo($photo['owner']);
     echo "<a href='http://www.flickr.com/photos/" . $photo['owner'] . "/" . $photo['id'] . "/'>";

@@ -1,4 +1,4 @@
-<?
+<?php
     /* Last updated with phpFlickr 1.3.1
      *
      * Edit these variables to reflect the values you need. $default_redirect 
@@ -6,6 +6,7 @@
      * using phpFlickr::auth() from another page or if you set the remember_uri
      * argument to false.
      */
+
     session_start();
 
     $api_key                 = $_SESSION['api_key'];
@@ -22,7 +23,7 @@
 	}
     
     $f = new phpFlickr($api_key, $api_secret);
- 
+
     if (empty($_GET['frob'])) {
         $f->auth($permissions, false);
     } else {
