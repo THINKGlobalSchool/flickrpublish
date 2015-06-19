@@ -25,9 +25,10 @@ require_once(dirname(dirname(__FILE__)) . "/vendors/phpFlickr-3.1/phpFlickr.php"
 
 if (!empty($_SESSION['api_key'])) {
 
-    $f = new phpFlickr($_SESSION['api_key'], $_SESSION['secret']);
+    $f = new phpFlickr($_SESSION['api_key'], $_SESSION['secret'], true);
+
     $f->auth($_SESSION['perms']);
-    var_dump('jere');die;
+
     $token = $f->auth_checkToken($_SESSION['phpFlickr_auth_token']);
     echo "<h2>" . $_SESSION['phpFlickr_auth_token'] . "</h2>";
     echo "This code will allow you to publish photos as the Flickr user '{$token['user']['username']}' with '{$token['perms']}' permissions";
