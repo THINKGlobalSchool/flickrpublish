@@ -50,7 +50,7 @@ elgg.flickrpublish.publish = function(event) {
 
 // initialize flickrpublish lightboxes
 elgg.flickrpublish.init_lightbox = function() {
-	$(".flickrpublish-lightbox").fancybox({
+	$(".flickrpublish-lightbox").colorbox({
 		'onClosed' : function() {
 			// Re-bind tidypics fancybox events
 			$.fancybox2.bindEvents();
